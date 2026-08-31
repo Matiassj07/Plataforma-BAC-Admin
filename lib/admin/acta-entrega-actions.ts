@@ -148,6 +148,11 @@ export async function actualizarEstadoImplementacion(
     modulo: "Documentos",
   });
 
+  if (completada) {
+    const { avanzarFlujoAutomatico } = await import("@/lib/admin/flujo-actions");
+    await avanzarFlujoAutomatico(clienteId, "docs_completos", "Acta de entrega completada — avance automático a docs_completos");
+  }
+
   revalidatePath(`/admin/clientes/${clienteId}`);
 }
 

@@ -74,7 +74,7 @@ export async function eliminarCliente(clienteId: string): Promise<{ ok: boolean;
       { tabla: "flujo_estados", col: "profile_id" },
       { tabla: "integraciones_almacenamiento", col: "profile_id" },
       { tabla: "analisis_ia", col: "profile_id" },
-      { tabla: "rat_cambios_campo", col: "profile_id" },
+      { tabla: "cambios_campo_rat", col: "profile_id" },
     ];
     for (const { tabla, col } of tablas) {
       await supabase.from(tabla).delete().eq(col, clienteId);
@@ -138,7 +138,7 @@ export async function eliminarCliente(clienteId: string): Promise<{ ok: boolean;
     await supabase.from("carpetas_documentos").delete().eq("profile_id", clienteId);
 
     // Personal del cliente
-    await supabase.from("personal").delete().eq("profile_id", clienteId);
+    await supabase.from("personal_cliente").delete().eq("profile_id", clienteId);
 
     // Delete the auth user (which cascades to profiles via Supabase trigger)
     const { error } = await supabase.auth.admin.deleteUser(clienteId);
